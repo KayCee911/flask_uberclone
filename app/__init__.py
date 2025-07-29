@@ -1,13 +1,13 @@
 from flask import Flask
-from app.auth.routes import auth
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = 'uber_clone_secret'
+    app.config['SECRET_KEY'] = 'uber_clone-secret-key'
 
     from .routes import main
-    from .auth import auth
+    from .auth.routes import auth 
 
     app.register_blueprint(main)
-    app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(auth)  
+
     return app
