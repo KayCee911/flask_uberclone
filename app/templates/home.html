@@ -3,4 +3,11 @@
 {% block content %}
     <h2>Welcome to the Uber Clone</h2>
     <p>Book your ride or become a driver!</p>
+
+{% if user_id %}
+  <p>Welcome, user {{ user_id }}!</p>
+{% else %}
+  <p>Welcome to UberClone. Please login or register.</p>
+{% endif %}
+
 {% endblock %}
