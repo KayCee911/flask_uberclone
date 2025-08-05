@@ -1,38 +1,27 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
-    text-align: center;
-    padding-top: 100px;
-}
-
-.container {
-    background: white;
-    padding: 2rem;
-    width: 60%;
-    margin: auto;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-/* Reset global styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    padding-top: 100px;
     margin: 0;
+    text-align: center;
 }
 
-/* Use a different name to avoid conflict with Bootstrap's .container */
+.container,
 .form-container {
     background: white;
-    padding: 2rem;
+    padding: 2rem 1.5rem;
     width: 60%;
-    margin: auto;
+    margin: 150px auto 2rem auto;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    text-align: center;
 }
 
-/* Optional: Improve form input look */
+.form-container label {
+    display: block;
+    text-align: left;
+    margin-left: 0;
+}
+
+
 input[type="text"],
 input[type="email"],
 input[type="password"] {
@@ -41,16 +30,88 @@ input[type="password"] {
     margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: left;
 }
 
-/* Optional: Improve button */
-button {
+button,
+.register-btn {
     width: 100%;
     padding: 0.75rem;
     background-color: #007bff;
     border: none;
     color: white;
     font-weight: bold;
+    font-size: 1.1rem;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover,
+.register-btn:hover {
+    background-color: #0056b3;
+}
+
+header {
+    background-color: #212529;
+    padding: 3rem 2rem;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
+    border-radius: 5px;
+}
+
+.brand-text {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-btn {
+    padding: 0.75rem 2rem;
+    background-color: transparent;
+    border: 2px solid #ffffff;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background-color: #ffffff;
+    color: #212529;
+    border-color: #ffffff;
 }
