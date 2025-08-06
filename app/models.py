@@ -1,5 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from app import db
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -14,3 +16,12 @@ class User(db.Model):
     
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+class RideRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    pickup = db.Column(db.String(100), nullable=False)
+    dropoff = db.Column(db.String(100), nullable=False)
+    status = db.Column(db.String(20), default='pending')
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+

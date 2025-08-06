@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-container">
+  <h2>Request a Ride</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+      {{ form.pickup_location.label }}<br>
+      {{ form.pickup_location(size=40) }}
+    </div>
+    <div>
+      {{ form.dropoff_location.label }}<br>
+      {{ form.dropoff_location(size=40) }}
+    </div>
+    <div>
+      {{ form.submit(class="btn btn-primary") }}
+    </div>
+  </form>
+</div>
+{% endblock %}

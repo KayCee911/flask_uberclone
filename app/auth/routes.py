@@ -44,3 +44,21 @@ def login():
             flash('Invalid email or password.')
     return render_template('login.html', form=form)
 
+
+@auth.route('/request-ride', methods=['GET', 'POST'])
+@login_required
+def request_ride():
+    form = RideRequestForm()
+    if form.validate_on_submit():
+        ride = RideRequest(
+            user_id=current_user.id,
+            pickup=form.pickup_location.data,
+            dropoff=form.dropoff_location.data,
+            status='pending'
+        )
+        db.session.add(ride)
+        db.session.commit()
+        flash('Ride requested!', 'success')
+        return redirect(url_for('main.dashboard'))
+    return render_template('main/request_ride.html', form=form)
+
