@@ -1,0 +1,43 @@
+/* static/css/style.css */
+
+/* Small helper to make the main card area sit nicely on all screen sizes */
+.form-container {
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* LEFT-LABEL: makes the label align to left border, visually consistent */
+.left-label {
+  display: block;           /* label on its own line */
+  margin-bottom: 0.4rem;    /* tight spacing to input */
+  font-weight: 600;
+  text-align: left;         /* ensure label text left aligned */
+}
+
+/* Make label and input feel attached to left border of the card content */
+.card .form-row {
+  margin-bottom: 0.75rem;
+}
+
+/* Ensure nav links are side-by-side (Bootstrap handles this, but just in case) */
+.navbar .nav-link {
+  padding-left: 0.9rem;
+  padding-right: 0.9rem;
+}
+
+/* Footer always at bottom when content short - body uses flex layout in base.html */
+footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Accessibility: focus states for inputs */
+.form-control:focus {
+  box-shadow: 0 0 0 0.15rem rgba(13,110,253,0.15);
+  border-color: #0d6efd;
+}
+
+/* Small devices: make card full-width with padding */
+@media (max-width: 576px) {
+  .card-body { padding: 1rem; }
+}

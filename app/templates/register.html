@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-7 col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h4 class="card-title mb-3 text-center">Create an account</h4>
+
+        <!-- Use WTForms if available; form object assumed as 'form' -->
+        <form method="POST" novalidate>
+          {{ form.hidden_tag() }} <!-- CSRF token -->
+
+          <!-- Full name -->
+          <div class="mb-3 form-row">
+            <label for="Username" class="form-label left-label">Full Name</label>
+            {{ form.username(class="form-control", id="name", placeholder="John Doe") }}
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3 form-row">
+            <label for="email" class="form-label left-label">Email</label>
+            {{ form.email(class="form-control", id="email", placeholder="you@example.com") }}
+          </div>
+
+          <!-- Phone -->
+          <div class="mb-3 form-row">
+            <label for="phone" class="form-label left-label">Phone Number</label>
+            {{ form.phone(class="form-control", id="phone", placeholder="+234...") }}
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3 form-row">
+            <label for="password" class="form-label left-label">Password</label>
+            {{ form.password(class="form-control", id="password", placeholder="At least 6 characters") }}
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="mb-3 form-row">
+            <label for="confirm_password" class="form-label left-label">Confirm Password</label>
+            {{ form.confirm_password(class="form-control", id="confirm_password", placeholder="Re-enter your password") }}
+            </div>
+
+
+
+          <!-- Role selector -->
+          <div class="mb-4 form-row">
+            <label for="role" class="form-label left-label">Register as</label>
+            {{ form.role(class="form-select", id="role") }}
+          </div>
+
+          <div class="d-grid">
+            {{ form.submit(class="btn btn-primary") }}
+          </div>
+
+          <div class="text-center mt-3 small">
+            Already have an account? <a href="{{ url_for('auth.login') }}">Login</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

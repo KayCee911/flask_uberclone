@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">Request a Ride</h2>
+    <div class="card shadow p-4 mx-auto" style="max-width: 500px;">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="pickup" class="form-label">Pickup Location</label>
+                <input type="text" class="form-control" id="pickup" name="pickup" placeholder="Enter pickup address" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="dropoff" class="form-label">Drop-off Location</label>
+                <input type="text" class="form-control" id="dropoff" name="dropoff" placeholder="Enter drop-off address" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="ride_type" class="form-label">Ride Type</label>
+                <select class="form-select" id="ride_type" name="ride_type" required>
+                    <option value="">-- Select Ride Type --</option>
+                    <option value="economy">Economy</option>
+                    <option value="premium">Premium</option>
+                    <option value="bike">Bike</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Request Ride</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
