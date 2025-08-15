@@ -1,8 +1,9 @@
 # app/main/routes.py
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_required, current_user
 from ..extensions import db
 from ..models import Ride, User
+from ..utils import haversine, calculate_fare
 from .forms import RideRequestForm
 from functools import wraps
 from .. import socketio
@@ -100,3 +101,5 @@ def update_ride_status(ride_id):
     db.session.commit()
     flash(f'Ride {ride.id} marked as {next_status}.', 'info')
     return redirect(url_for('main.driver_dashboard'))
+
+

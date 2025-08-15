@@ -1,16 +1,15 @@
 import math
 
-def haversine_distance(lat1, lon1, lat2, lon2):
-    R = 6371  # Earth radius in km
-    dlat = math.radians(lat2 - lat1)
-    dlon = math.radians(lon2 - lon1)
-    a = (math.sin(dlat/2) ** 2 +
-         math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon/2) ** 2)
+def haversine(lat1, lon1, lat2, lon2):
+    # Radius of Earth in km
+    R = 6371.0
+    lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
     c = 2 * math.asin(math.sqrt(a))
-    return R * c  # km
+    return R * c
 
-def estimate_fare(lat1, lon1, lat2, lon2):
-    base_rate = 0.8  # currency per km
-    start_fee = 2.0  # flat start fee
-    distance = haversine_distance(lat1, lon1, lat2, lon2)
-    return round(start_fee + (distance * base_rate), 2)
+def calculate_fare(distance_km, time_min, base_fare=300, per_km=120, per_min=50, surge=1.0):
+    total = base_fare + (distance_km * per_km) + (time_min * per_min)
+    return round(total * surge, 2)
