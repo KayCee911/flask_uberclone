@@ -1,4 +1,3 @@
-# app/fare.py
 from flask import Blueprint, request, jsonify
 import math
 
