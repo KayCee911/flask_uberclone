@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container">
+  <h2 class="mb-4">Driver Dashboard</h2>
+
+  <div class="row">
+    <div class="col-lg-6 mb-4">
+      <h5>Open Ride Requests</h5>
+      {% if open_rides %}
+        <div class="list-group">
+          {% for r in open_rides %}
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <div><strong>#{{ r.id }}</strong> • {{ r.pickup_address }} → {{ r.dropoff_address }}</div>
+                  <small class="text-muted">Requested by: {{ r.rider.username }} • {{ r.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                </div>
+                <form method="POST" action="{{ url_for('main.accept_ride', ride_id=r.id) }}">
+                  <button class="btn btn-success btn-sm">Accept</button>
+                </form>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-muted">No open rides right now.</p>
+      {% endif %}
+    </div>
+
+    <div class="col-lg-6 mb-4">
+      <h5>My Active Rides</h5>
+      {% if my_active %}
+        <div class="list-group">
+          {% for r in my_active %}
+            <div class="list-group-item">
+              <div class="mb-1">
+                <strong>#{{ r.id }}</strong> • {{ r.pickup_address }} → {{ r.dropoff_address }}
+                <span class="badge bg-info ms-2">{{ r.status }}</span>
+              </div>
+              <form class="d-flex gap-2" method="POST" action="{{ url_for('main.update_ride_status', ride_id=r.id) }}">
+                <input type="hidden" name="status" value="en_route">
+                <button class="btn btn-outline-primary btn-sm">Mark En Route</button>
+              </form>
+              <form class="d-inline" method="POST" action="{{ url_for('main.update_ride_status', ride_id=r.id) }}">
+                <input type="hidden" name="status" value="completed">
+                <button class="btn btn-outline-success btn-sm mt-2">Complete</button>
+              </form>
+              <form class="d-inline" method="POST" action="{{ url_for('main.update_ride_status', ride_id=r.id) }}">
+                <input type="hidden" name="status" value="cancelled">
+                <button class="btn btn-outline-danger btn-sm mt-2">Cancel</button>
+              </form>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-muted">No active rides.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

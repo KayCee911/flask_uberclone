@@ -31,6 +31,13 @@
 
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav ms-auto">
+
+        {% if current_user.is_authenticated and current_user.role == 'driver' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('main.driver_dashboard') }}">Driver Dashboard</a>
+          </li>
+        {% endif %}
+
         {% if current_user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('main.request_ride') }}">Request Ride</a>

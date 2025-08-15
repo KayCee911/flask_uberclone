@@ -1,31 +1,121 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container py-5">
-    <h2 class="text-center mb-4">Request a Ride</h2>
-    <div class="card shadow p-4 mx-auto" style="max-width: 500px;">
-        <form method="POST">
-            <div class="mb-3">
-                <label for="pickup" class="form-label">Pickup Location</label>
-                <input type="text" class="form-control" id="pickup" name="pickup" placeholder="Enter pickup address" required>
-            </div>
 
-            <div class="mb-3">
-                <label for="dropoff" class="form-label">Drop-off Location</label>
-                <input type="text" class="form-control" id="dropoff" name="dropoff" placeholder="Enter drop-off address" required>
-            </div>
+<section class="container">
+  <h2 class="mb-4">Request a Ride</h2>
 
-            <div class="mb-3">
-                <label for="ride_type" class="form-label">Ride Type</label>
-                <select class="form-select" id="ride_type" name="ride_type" required>
-                    <option value="">-- Select Ride Type --</option>
-                    <option value="economy">Economy</option>
-                    <option value="premium">Premium</option>
-                    <option value="bike">Bike</option>
-                </select>
-            </div>
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
 
-            <button type="submit" class="btn btn-primary w-100">Request Ride</button>
-        </form>
+        <div class="mb-3">
+          <label class="form-label">Pickup Address</label>
+          {{ form.pickup(class="form-control", placeholder="e.g. 12 Adeola Odeku, VI") }}
+        </div>
+
+        {{ form.pickup_lat() }}
+        {{ form.pickup_lng() }}
+
+        <div class="mb-3">
+          <label class="form-label">Dropoff Address</label>
+          {{ form.dropoff(class="form-control", placeholder="e.g. 5 Marina Road, Lagos") }}
+        </div>
+
+        {{ form.dropoff_lat() }}
+        {{ form.dropoff_lng() }}
+
+        <div class="d-grid">
+          {{ form.submit(class="btn btn-primary btn-lg") }}
+        </div>
+      </form>
+
+      <p class="text-muted mt-3 small">
+        Tip: Click the maps to set precise pickup & dropoff. Fields will autofill coordinates.
+      </p>
     </div>
-</div>
+
+    <div class="col-lg-6">
+      <div class="mb-3">
+        <h6 class="mb-2">Pickup (click on map)</h6>
+        <div id="pickupMap" style="height: 250px; border-radius: 10px;"></div>
+      </div>
+      <div>
+        <h6 class="mb-2">Dropoff (click on map)</h6>
+        <div id="dropoffMap" style="height: 250px; border-radius: 10px;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Leaflet CSS/JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+(function(){
+  // default center (Lagos)
+  const center = [6.5244, 3.3792];
+
+  const pickupMap = L.map('pickupMap', { scrollWheelZoom: true, dragging: true }).setView(center, 12);
+  const dropoffMap = L.map('dropoffMap', { scrollWheelZoom: true, dragging: true }).setView(center, 12);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(pickupMap);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(dropoffMap);
+
+  let pickupMarker = null;
+  let dropoffMarker = null;
+
+  const pickupLatField = document.getElementById("pickup_lat");
+  const pickupLngField = document.getElementById("pickup_lng");
+  const dropLatField = document.getElementById("dropoff_lat");
+  const dropLngField = document.getElementById("dropoff_lng");
+
+  pickupMap.on('click', (e) => {
+    const { lat, lng } = e.latlng;
+    if (!pickupMarker) {
+      pickupMarker = L.marker([lat, lng], { draggable: true }).addTo(pickupMap);
+      pickupMarker.on('dragend', (ev) => {
+        const p = ev.target.getLatLng();
+        pickupLatField.value = p.lat.toFixed(6);
+        pickupLngField.value = p.lng.toFixed(6);
+      });
+    } else {
+      pickupMarker.setLatLng([lat, lng]);
+    }
+    pickupLatField.value = lat.toFixed(6);
+    pickupLngField.value = lng.toFixed(6);
+  });
+
+  dropoffMap.on('click', (e) => {
+    const { lat, lng } = e.latlng;
+    if (!dropoffMarker) {
+      dropoffMarker = L.marker([lat, lng], { draggable: true }).addTo(dropoffMap);
+      dropoffMarker.on('dragend', (ev) => {
+        const p = ev.target.getLatLng();
+        dropLatField.value = p.lat.toFixed(6);
+        dropLngField.value = p.lng.toFixed(6);
+      });
+    } else {
+      dropoffMarker.setLatLng([lat, lng]);
+    }
+    dropLatField.value = lat.toFixed(6);
+    dropLngField.value = lng.toFixed(6);
+  });
+
+  // Try geolocate (auto-center)
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const here = [pos.coords.latitude, pos.coords.longitude];
+      pickupMap.setView(here, 13);
+      dropoffMap.setView(here, 13);
+    });
+  }
+})();
+</script>
 {% endblock %}
