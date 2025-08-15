@@ -48,3 +48,13 @@ class Ride(db.Model):
 
     def __repr__(self):
         return f'<Ride {self.id} {self.status}>'
+    
+class Car(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    driver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    make = db.Column(db.String(50), nullable=False)
+    model = db.Column(db.String(50), nullable=False)
+    plate_number = db.Column(db.String(20), nullable=False, unique=True)
+    color = db.Column(db.String(20), nullable=True)
+
+    driver = db.relationship('User', backref='cars')    

@@ -5,6 +5,13 @@ from ..extensions import db
 from ..models import Ride, User
 from .forms import RideRequestForm
 from functools import wraps
+from .. import socketio
+from flask_socketio import emit
+
+@socketio.on('ride_update')
+def handle_ride_update(data):
+    emit('ride_status', data, broadcast=True)
+
 
 main_bp = Blueprint('main', __name__)
 
